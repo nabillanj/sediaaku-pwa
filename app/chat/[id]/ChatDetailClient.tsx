@@ -70,12 +70,13 @@ export default function ChatDetailClient({
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
-  const [menuFor, setMenuFor] = useState<string | null>(null); // message id
+  const [menuFor, setMenuFor] = useState<string | null>(null);
   const [reported, setReported] = useState<Set<string>>(new Set());
   const [reportDone, setReportDone] = useState(false);
   const [, startTransition] = useTransition();
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const lastTsRef = useRef<string>(initialMessages[initialMessages.length - 1]?.created_at ?? new Date(0).toISOString());
 
   // Scroll to bottom on new messages
   useEffect(() => {
@@ -85,16 +86,16 @@ export default function ChatDetailClient({
   // Poll for new messages every 3s
   useEffect(() => {
     const interval = setInterval(() => {
-      const lastTs = messages[messages.length - 1]?.created_at ?? new Date(0).toISOString();
       startTransition(async () => {
-        const fresh = await pollMessages(conversationId, currentUid, lastTs);
+        const fresh = await pollMessages(conversationId, currentUid, lastTsRef.current);
         if (fresh.length > 0) {
+          lastTsRef.current = fresh[fresh.length - 1].created_at;
           setMessages((prev) => [...prev, ...fresh]);
         }
       });
     }, 3000);
     return () => clearInterval(interval);
-  }, [conversationId, currentUid, messages]);
+  }, [conversationId, currentUid]);
 
   async function handleSend() {
     const trimmed = input.trim();
@@ -115,6 +116,7 @@ export default function ChatDetailClient({
 
     const res = await sendMessage(conversationId, currentUid, currentRole, trimmed);
     if (res.ok && res.message) {
+      lastTsRef.current = res.message.created_at;
       setMessages((prev) => prev.map((m) => m.id === optimistic.id ? res.message! : m));
     }
     setSending(false);
