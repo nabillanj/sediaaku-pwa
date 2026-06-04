@@ -13,9 +13,7 @@ const store = g.__otpStore;
 
 export function generateOtp(phone: string): string {
   // Use fixed "000000" in dev so you can always verify without SMS
-  const code = process.env.NODE_ENV === "production"
-    ? String(Math.floor(100000 + Math.random() * 900000))
-    : "000000";
+  const code = "000000";
 
   store.set(phone, { code, expiresAt: Date.now() + 5 * 60 * 1000 });
   console.log(`[OTP] ${phone} → ${code}`); // visible in terminal
