@@ -76,7 +76,7 @@ function OtpForm() {
         }
         return;
       }
-      router.push(res.role === "partner" ? "/mitra/home" : "/home");
+      router.push((res as { role?: string }).role === "partner" ? "/mitra/home" : "/home");
     } else if (role === "partner") {
       const res = await verifyOtpForMitra(phone, code);
       setLoading(false);
