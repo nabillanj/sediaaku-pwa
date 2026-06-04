@@ -62,8 +62,8 @@ function OtpForm() {
 
     if (mode === "login") {
       const res = await loginUser({ phone, code });
-      setLoading(false);
       if (!res.ok) {
+        setLoading(false);
         if (res.needRoleSelect) {
           setPendingCode(code);
           setNeedRoleSelect(true);
@@ -79,14 +79,12 @@ function OtpForm() {
       router.push((res as { role?: string }).role === "partner" ? "/mitra/home" : "/home");
     } else if (role === "partner") {
       const res = await verifyOtpForMitra(phone, code);
-      setLoading(false);
-      if (!res.ok) { setError(res.error ?? "Kode salah"); return; }
+      if (!res.ok) { setLoading(false); setError(res.error ?? "Kode salah"); return; }
       const sp = new URLSearchParams({ phone, name, city, email });
       router.push(`/mitra/daftar?${sp.toString()}`);
     } else {
       const res = await verifyAndCreateUser({ phone, code, name, city, email });
-      setLoading(false);
-      if (!res.ok) { setError(res.error ?? "Kode salah"); return; }
+      if (!res.ok) { setLoading(false); setError(res.error ?? "Kode salah"); return; }
       router.push("/auth/welcome");
     }
   }
@@ -94,16 +92,31 @@ function OtpForm() {
   async function handleRoleSelect(selectedRole: "user" | "partner") {
     setLoading(true);
     const res = await loginUser({ phone, code: pendingCode, role: selectedRole });
-    setLoading(false);
-    if (!res.ok) { setError(res.error ?? "Gagal masuk"); return; }
+    if (!res.ok) { setLoading(false); setError(res.error ?? "Gagal masuk"); return; }
     router.push(selectedRole === "partner" ? "/mitra/home" : "/home");
   }
 
   const phoneFormatted = phone.replace(/(\d{3})(\d{4})(\d{4})/, "$1 $2 $3");
 
+  const loadingOverlay = loading && (
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 9999,
+      background: "rgba(255,255,255,0.6)", backdropFilter: "blur(2px)",
+      display: "flex", alignItems: "center", justifyContent: "center",
+    }}>
+      <div style={{
+        width: 36, height: 36, borderRadius: "50%",
+        border: "3px solid #e0f2f1", borderTop: "3px solid #00897b",
+        animation: "spin 0.7s linear infinite",
+      }} />
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+    </div>
+  );
+
   if (needRoleSelect) {
     return (
       <div className="pwa-shell">
+        {loadingOverlay}
         <AppBar title="" />
         <div style={{ flex: 1, padding: "8px 24px 0", display: "flex", flexDirection: "column" }}>
           <div style={{
@@ -138,6 +151,7 @@ function OtpForm() {
 
   return (
     <div className="pwa-shell">
+      {loadingOverlay}
       <AppBar title="" />
 
       <div style={{ flex: 1, padding: "8px 24px 0", display: "flex", flexDirection: "column" }}>
