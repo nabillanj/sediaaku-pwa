@@ -90,7 +90,11 @@ export default function ChatDetailClient({
         const fresh = await pollMessages(conversationId, currentUid, lastTsRef.current);
         if (fresh.length > 0) {
           lastTsRef.current = fresh[fresh.length - 1].created_at;
-          setMessages((prev) => [...prev, ...fresh]);
+          setMessages((prev) => {
+            const existingIds = new Set(prev.map((m) => m.id));
+            const newMsgs = fresh.filter((m) => !existingIds.has(m.id));
+            return newMsgs.length > 0 ? [...prev, ...newMsgs] : prev;
+          });
         }
       });
     }, 3000);
