@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { RegisterPush } from "@/components/RegisterPush";
+import NavigationProgress from "@/components/NavigationProgress";
 import "./globals.css";
 
 const font = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" href="/icon-192.png" />
       </head>
       <body style={{ background: "#ECECE7" }}>
+        <NavigationProgress />
         <RegisterPush />
         {children}
       </body>
