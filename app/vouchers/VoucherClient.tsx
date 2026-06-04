@@ -24,6 +24,7 @@ export type HistoryRow = {
   description: string | null;
   discountType: string;
   discountValue: number;
+  maxDiscount: number | null;
   usedAt: string;
 };
 

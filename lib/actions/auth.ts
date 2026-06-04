@@ -96,6 +96,7 @@ export async function loginUser(data: {
   error?: string;
   notFound?: boolean;
   needRoleSelect?: boolean;
+  role?: string;
 }> {
   const phone = data.phone.replace(/\D/g, "");
 

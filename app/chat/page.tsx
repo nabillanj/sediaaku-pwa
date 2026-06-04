@@ -9,7 +9,7 @@ export default async function ChatPage() {
   if (!session) redirect("/");
   if (session.role !== "user") redirect("/mitra/chat");
 
-  let conversations;
+  let conversations: Awaited<ReturnType<typeof getUserChatList>> = [];
   try {
     conversations = await getUserChatList(session.uid);
   } catch {
