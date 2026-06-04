@@ -1,0 +1,238 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  --primary: #0E7C71;
+  --primary-700: #085E55;
+  --primary-600: #0A6B62;
+  --primary-500: #0E7C71;
+  --primary-400: #14A89A;
+  --primary-300: #4FBFAF;
+  --primary-200: #9CD9CE;
+  --primary-100: #D1ECE7;
+  --primary-50: #EAF5F3;
+
+  --bg: #FAFBFA;
+  --surface: #FFFFFF;
+  --surface-2: #F4F7F6;
+  --text-1: #0F1F1D;
+  --text-2: #54655F;
+  --text-3: #94A29D;
+  --border: #E7ECEA;
+  --border-soft: #F0F3F1;
+
+  --warn: #B5751A;
+  --warn-bg: #FBF1DE;
+  --danger: #B85148;
+  --danger-bg: #FBE7E3;
+  --info: #2563A8;
+  --info-bg: #E5EEF8;
+
+  --grad-hero: linear-gradient(135deg, #0A6B62 0%, #0E7C71 38%, #14A89A 100%);
+  --grad-hero-soft: linear-gradient(160deg, #EAF5F3 0%, #D8EDE8 60%, #C5E3DB 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  font-family: "Plus Jakarta Sans", -apple-system, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Layout shell ────────────────────────────────────────── */
+.pwa-shell {
+  height: 100dvh;
+  max-width: 430px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Cards ────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  box-shadow: 0 1px 3px rgba(15, 31, 29, 0.04);
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn-primary {
+  width: 100%;
+  padding: 15px 20px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-primary:hover {
+  opacity: 0.92;
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  width: 100%;
+  padding: 15px 20px;
+  background: transparent;
+  color: var(--text-1);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ── Inputs ──────────────────────────────────────────────── */
+.input-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  margin-bottom: 6px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--text-1);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.input-field::placeholder {
+  color: var(--text-3);
+}
+.input-field:focus {
+  border-color: var(--primary);
+}
+.input-field.error {
+  border-color: var(--danger);
+  background: var(--danger-bg);
+}
+
+.input-error {
+  font-size: 12px;
+  color: var(--danger);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Tags ─────────────────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--surface-2);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+}
+.tag-primary {
+  background: var(--primary-50);
+  color: var(--primary-700);
+  border-color: var(--primary-200);
+}
+.tag-active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* ── AppBar ──────────────────────────────────────────────── */
+.appbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  flex-shrink: 0;
+}
+.appbar-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-1);
+  flex: 1;
+}
+.back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  color: var(--text-1);
+}
+
+/* ── TabBar ──────────────────────────────────────────────── */
+.tabbar {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border-top: 1px solid var(--border-soft);
+  padding: 8px 0 4px;
+  flex-shrink: 0;
+}
+.tabbar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+.tabbar-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+.tabbar-item.active .tabbar-label {
+  color: var(--primary);
+}
+
+/* ── Avatar ──────────────────────────────────────────────── */
+.avatar {
+  border-radius: 50%;
+  background: var(--primary-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--primary-700);
+  flex-shrink: 0;
+  font-size: 14px;
+}
